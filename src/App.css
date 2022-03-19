@@ -1,15 +1,9 @@
 .app {
   display: flex;
-
-  /* horizontal */
   justify-content: center;
-
-  /* vertical */
   align-items: center;
-
-  background-color: #43425D;
+  background-color: #43425d;
   color: white;
-
   height: 100vh;
 }
 
@@ -41,11 +35,16 @@
 }
 
 .landing-page-button {
-  background-color: #397C90;
+  background-color: #397c90;
   color: white;
   font-size: 1rem;
   border: none;
   height: 3rem;
   width: 10rem;
   border-radius: 10px;
+  cursor: pointer;
+}
+
+.landing-page-button:hover {
+  background-color: lightblue;
 }
