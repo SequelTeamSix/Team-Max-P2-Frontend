@@ -15,7 +15,7 @@
   width: 20vw;
 }
 
-.landing-page {
+.modal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,8 +23,8 @@
 
   border-radius: 10px;
   box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
-  height: 50vh;
-  width: 50vw;
+  height: 70vh;
+  width: 60vw;
 }
 
 .landing-page-button-container {
@@ -34,7 +34,7 @@
   gap: 20px;
 }
 
-.landing-page-button {
+.button {
   background-color: #397c90;
   color: white;
   font-size: 1rem;
@@ -43,8 +43,27 @@
   width: 10rem;
   border-radius: 10px;
   cursor: pointer;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
 }
 
-.landing-page-button:hover {
+.button:hover {
   background-color: lightblue;
+}
+
+.sign-in-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 15vw;
+}
+
+.sign-in-input-group > input {
+  margin-top: 1rem;
+  background-color: #43425d;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: solid white 1px;
+  color: white;
+  height: 20px;
+  font-size: 1rem;
 }
