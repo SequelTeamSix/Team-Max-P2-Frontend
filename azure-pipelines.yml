@@ -19,3 +19,13 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure subscription 1 (f63e12c3-15fc-47b5-b47e-1985786331f5)'
+    appType: 'webApp'
+    appName: 'maxtermind-employee-role-management-system'
+    deployToSlotOrASE: true
+    resourceGroupName: 'resource2'
+    slotName: 'production'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
