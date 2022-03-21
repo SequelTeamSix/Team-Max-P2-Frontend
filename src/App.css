@@ -67,3 +67,215 @@
   height: 20px;
   font-size: 1rem;
 }
+
+/* Employee Profile Page Section */
+
+.large-modal {
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 10px;
+  box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
+  height: 90vh;
+  width: 85vw;
+}
+
+.employee-profile-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 40%;
+  height: 90%;
+  border-radius: 10px;
+  
+}
+
+.employee-profile-left-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 80%;
+  width: 90%;
+  margin-top: 20px;
+}
+
+.employee-profile-left-top-elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 65%;
+  height: 75%;
+}
+
+.profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 65%;
+}
+
+.profile-image img {
+  height: 200px;
+}
+
+.employee-profile-left-bottom {
+  display: flex;
+  flex-direction: column;
+  height: 40%;
+  width: 90%;
+}
+
+.role-preferences-container {
+  display: flex;
+  flex-direction: column;
+  border: solid black 1px;
+}
+
+.add-role-preference-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: solid gray 1px;
+  background-color: white;
+  color: black;
+
+}
+
+.role-preference-elements {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  
+}
+
+.employee-profile-right {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  height: 95.5%;
+  border-radius: 10px;
+}
+
+.employee-information-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 35%;
+}
+
+.employee-information-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 100%;
+  width: 100%;
+}
+
+/* Admin Page Section */
+
+.admin-large-modal {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
+  height: 90vh;
+  width: 85vw;
+}
+
+.admin-top-container {
+  display: flex;
+  justify-content: space-evenly;
+  height: 15%;
+  width: 100%;
+}
+
+.admin-top-container-left {
+  display: flex;
+  gap: 2em;
+  width: 50%;
+}
+
+.admin-top-container-left-elements {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  height: 100%;
+  width: 45%;
+}
+
+.admin-top-container-left-elements img {
+  height: 50%;
+  border-radius: 50px;
+}
+
+.admin-top-container-right {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  width: 50%;
+}
+
+.admin-top-container-right-elements {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1em;
+  height: 100%;
+  width: 70%;
+}
+
+.admin-main-container {
+  display: flex;
+  justify-content: space-evenly;
+  height: 65%;
+  width: 100%;
+}
+
+.admin-main-container-left {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+.admin-main-container-title {
+  display: flex;
+  align-items: flex-end;
+  height: 25%
+}
+
+.admin-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 75%;
+}
+
+.admin-add-role-preference-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: solid gray 1px;
+  background-color: white;
+  color: black;
+}
+
+.admin-add-role-preference-container:hover {
+  box-shadow: 0px 4px 4px 4px rgba(0, 0, 0, 0.29);
+}
+
+.admin-add-role-preference-container:active {
+  opacity: 50%;
+}
+
+.admin-main-container-right {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
