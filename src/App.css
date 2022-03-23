@@ -56,8 +56,12 @@
   width: 15vw;
 }
 
-.sign-in-input-group > input {
-  margin-top: 1rem;
+.sign-in-input-group > label {
+  margin-bottom: 1rem;
+}
+
+.sign-in-input-group > input,
+.sign-in-input-group > div > input {
   background-color: #43425d;
   border-top: none;
   border-right: none;
@@ -66,6 +70,12 @@
   color: white;
   height: 20px;
   font-size: 1rem;
+}
+
+.sign-in-input-group-password {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Employee Profile Page Section */
@@ -87,7 +97,6 @@
   width: 40%;
   height: 90%;
   border-radius: 10px;
-  
 }
 
 .employee-profile-left-top {
@@ -142,7 +151,6 @@
   border: solid gray 1px;
   background-color: white;
   color: black;
-
 }
 
 .role-preference-elements {
@@ -150,7 +158,6 @@
   justify-content: space-between;
   align-items: center;
   width: 95%;
-  
 }
 
 .employee-profile-right {
@@ -246,7 +253,7 @@
 .admin-main-container-title {
   display: flex;
   align-items: flex-end;
-  height: 25%
+  height: 25%;
 }
 
 .admin-table-container {
