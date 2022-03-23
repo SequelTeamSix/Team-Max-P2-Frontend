@@ -1,10 +1,28 @@
 import { useEffect, useState } from "react";
+import { Dropdown, DropdownButton, Form } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 
 export function EmployeeProfile() {
+  const ROLE_PREFERENCE_COUNT = 3;
+  const rolePreferenceArr = [1, 2, 3]; // TODO: find a better way to do this
   const { currentUser, logout } = useAuth();
   const [employee, setEmployee] = useState();
   useEffect(() => setEmployee(currentUser), [currentUser]);
+  const [positions, setPositions] = useState();
+  useEffect(() => {
+    fetch("http://localhost:3000/position/open", {
+      mode: "no-cors",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPositions(data);
+      })
+      .catch((e) => {
+        console.log("Failed to retrieve open positions");
+        console.log(e);
+      });
+  }, []);
 
   return employee ? (
     <div className="large-modal">
@@ -12,7 +30,14 @@ export function EmployeeProfile() {
         <div className="employee-profile-left-top">
           <div className="employee-profile-left-top-elements">
             <div className="profile-image">
-              <img src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png" />
+              <img
+                src={
+                  employee.photo
+                    ? employee.photo
+                    : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+                }
+                alt="You!"
+              />
             </div>
           </div>
           <div className="employee-profile-left-top-elements">
@@ -24,24 +49,20 @@ export function EmployeeProfile() {
         <div className="employee-profile-left-bottom">
           <h3>Role Preferences</h3>
           <div className="role-preferences-container">
-            <div className="add-role-preference-container">
-              <div className="role-preference-elements">
-                <p>Role 1</p>
-                <a href="espn.com">Add a role</a>
+            {rolePreferenceArr.map((role, i) => (
+              <div key={i} className="add-role-preference-container">
+                <div className="role-preference-elements">
+                  <p>Role {i + 1}</p>
+                  <Form.Select aria-label="Default select example">
+                    {positions?.map((position, i) => (
+                      <option key={position.name} value={i}>
+                        {position.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
               </div>
-            </div>
-            <div className="add-role-preference-container">
-              <div className="role-preference-elements">
-                <p>Role 2</p>
-                <a href="espn.com">Add a role</a>
-              </div>
-            </div>
-            <div className="add-role-preference-container">
-              <div className="role-preference-elements">
-                <p>Role 3</p>
-                <a href="espn.com">Add a role</a>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -103,7 +124,7 @@ export function EmployeeProfile() {
                   {/* Some employees do not have a manager */}
                   {employee.position.manager
                     ? `${employee.position.manager.firstName} ${employee.position.manager.lastName}`
-                    : ""}
+                    : "none"}
                 </p>
               </div>
             </div>
