@@ -19,10 +19,7 @@ export default function AdminPage() {
       setLoadingApplications(true);
       const selectedPositionId = positions[selectedPositionIndex].id;
       fetch(
-        `https://maxtermindapp1-backend.azurewebsites.net/application/position/${selectedPositionId}`,
-        {
-          mode: "no-cors",
-        }
+        `https://maxtermindapp1-backend.azurewebsites.net/application/position/${selectedPositionId}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -69,10 +66,7 @@ export default function AdminPage() {
       const selectedCandidateId =
         applications[applications.findIndex((c) => c.selected)].id;
       fetch(
-        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${selectedCandidateId}`,
-        {
-          mode: "no-cors",
-        }
+        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${selectedCandidateId}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -87,9 +81,7 @@ export default function AdminPage() {
 
   function getOpenPositions() {
     setLoadingPostions(true);
-    fetch("https://maxtermindapp1-backend.azurewebsites.net/position/open", {
-      mode: "no-cors",
-    })
+    fetch("https://maxtermindapp1-backend.azurewebsites.net/position/open")
       .then((res) => res.json())
       .then((data) => {
         const p = data.map((position) => ({
@@ -113,10 +105,7 @@ export default function AdminPage() {
       console.log(selectedApplication);
 
       fetch(
-        `https://maxtermindapp1-backend.azurewebsites.net/action/approved/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
-        {
-          mode: "no-cors",
-        }
+        `https://maxtermindapp1-backend.azurewebsites.net/action/approved/${selectedApplication.id}/${selectedApplication.position.manager.id}`
       )
         .then((res) => res)
         .then((data) => getOpenPositions())
@@ -134,10 +123,7 @@ export default function AdminPage() {
       console.log(selectedApplication);
 
       fetch(
-        `https://maxtermindapp1-backend.azurewebsites.net/action/rejected/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
-        {
-          mode: "no-cors",
-        }
+        `https://maxtermindapp1-backend.azurewebsites.net/action/rejected/${selectedApplication.id}/${selectedApplication.position.manager.id}`
       )
         .then((res) => res)
         .then((data) => getOpenPositions())
@@ -206,7 +192,7 @@ export default function AdminPage() {
         <div className="admin-top-container-left">
           <div className="admin-top-container-left-elements">
             <img src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png" />
-            <p>{`${currentUser.firstName} ${currentUser.lastName}`}</p>
+            <h5>{`${currentUser.firstName} ${currentUser.lastName}`}</h5>
           </div>
         </div>
         <div className="admin-top-container-right">
@@ -220,7 +206,7 @@ export default function AdminPage() {
       <div className="admin-main-container">
         <div className="admin-main-container-left">
           <div className="admin-main-container-title">
-            <h3>Current Open Positions</h3>
+            <h3>Open Positions</h3>
           </div>
           <div className="admin-table-container">
             {loadingPositions ? (
@@ -231,7 +217,7 @@ export default function AdminPage() {
               >
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
-            ) : (
+            ) : positions ? (
               <div className="role-preferences-container">
                 {positions.map((position, i) => (
                   <div
@@ -252,6 +238,8 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
+            ) : (
+              <div>No open positions</div>
             )}
           </div>
         </div>

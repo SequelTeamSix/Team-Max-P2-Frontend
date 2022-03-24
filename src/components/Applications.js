@@ -4,16 +4,12 @@ import { useAuth } from "../contexts/AuthContext";
 export default function Applications() {
   const { currentUser } = useAuth();
 
-  function determineStatus(app) {
-    let status = "";
-    if (app.approved) {
-      status = "approved";
-    } else if (app.rejected) {
-      status = "rejected";
+  function determineText(app) {
+    if (app.position) {
+      return `Position: ${app.position.name} | Applied: ${app.date}`;
     } else {
-      status = "pending";
+      return `Applied: ${app.date}`;
     }
-    return status;
   }
 
   return (
@@ -29,11 +25,11 @@ export default function Applications() {
             currentUser.applications
               .filter((app) => !app.rejected && !app.approved)
               .map((app) => (
-                <div className="add-role-preference-container">
-                  <p style={{ marginBottom: 0 }}>
-                    Date applied: {app.date} | Current Status:{" "}
-                    {determineStatus(app)}
-                  </p>
+                <div
+                  className="notification-container"
+                  style={{ marginBottom: 0 }}
+                >
+                  {determineText(app)}
                 </div>
               ))
           ) : (

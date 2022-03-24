@@ -17,26 +17,26 @@ export function EmployeeProfile() {
 
   function getOpenPositions() {
     setLoading(true);
-    fetch("https://maxtermindapp1-backend.azurewebsites.net/position/open", {
-      mode: "no-cors",
-    })
+    fetch("https://maxtermindapp1-backend.azurewebsites.net/position/open", {})
       .then((res) => res.json())
       .then((data) => {
-        const p = data
-          .map((position) => ({
-            ...position,
-            selected: false,
-          }))
-          .filter((position) => {
-            if (currentUser.applications) {
-              return !currentUser.applications.some(
-                (app) => app.position === position.id
-              );
-            }
-            return position;
-          });
-        console.log(p);
-        setPositions(p);
+        if (data) {
+          const p = data
+            .map((position) => ({
+              ...position,
+              selected: false,
+            }))
+            .filter((position) => {
+              if (currentUser.applications) {
+                return !currentUser.applications.some(
+                  (app) => app.position === position.id
+                );
+              }
+              return position;
+            });
+          console.log(p);
+          setPositions(p);
+        }
       })
       .catch((e) => {
         console.log("Failed to retrieve open positions");
@@ -56,10 +56,7 @@ export function EmployeeProfile() {
           ? selectedPosition.manager.id
           : selectedPosition.manager;
       fetch(
-        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${employee.id}`,
-        {
-          mode: "no-cors",
-        }
+        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${employee.id}`
       )
         .then((res) => res)
         .then((data) => {
@@ -108,9 +105,7 @@ export function EmployeeProfile() {
           <div className="profile-image">
             <img
               src={
-                employee.photo
-                  ? employee.photo
-                  : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+                "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
               }
               alt="You!"
             />
@@ -191,7 +186,7 @@ export function EmployeeProfile() {
                       <Notification {...noti} />
                     ))
                   ) : (
-                    <h4>No notifications</h4>
+                    <h4 style={{ color: "white" }}>No notifications</h4>
                   )}
                 </Popover.Body>
               </Popover>
@@ -210,7 +205,7 @@ export function EmployeeProfile() {
         </div>
         <div className="employee-profile-bottom">
           <div className="employee-information-container">
-            <h3>Current eligible positions</h3>
+            <h3>Current Open Positions</h3>
             {loading ? (
               <Spinner
                 style={{ marginLeft: "10rem", marginTop: "3rem" }}
@@ -219,7 +214,7 @@ export function EmployeeProfile() {
               >
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
-            ) : positions ? (
+            ) : positions.length ? (
               <div className="positions-container">
                 {positions.map((position, i) => (
                   <div className="add-role-preference-container">

@@ -5,6 +5,8 @@
   background-color: #43425d;
   color: white;
   height: 100vh;
+  width: 100vw;
+  z-index: 1;
 }
 
 .company-title {
@@ -21,12 +23,15 @@
   align-items: center;
   justify-content: space-between;
 
+  background-color: #43425d;
+  z-index: 3;
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
   height: 70vh;
   width: 60vw;
   max-width: 800px;
+  max-height: 800px;
 }
 
 .landing-page-button-container {
@@ -129,6 +134,7 @@
 /* Employee Profile Page Section */
 
 .large-modal {
+  background-color: #43425d;
   display: flex;
   justify-content: space-evenly;
   border-radius: 10px;
@@ -136,6 +142,7 @@
   height: 90vh;
   width: 85vw;
   max-width: 1100px;
+  z-index: 3;
 }
 
 .employee-profile-left {
@@ -172,7 +179,7 @@
 
 .employee-profile-top-right {
   display: flex;
-  justify-content: end;
+  justify-content: center;
   column-gap: 20px;
   align-items: center;
   width: 100%;
@@ -182,7 +189,7 @@
 .employee-profile-bottom {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: space-between;
   height: 40%;
   width: 90%;
 }
@@ -201,7 +208,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 70%;
+  width: 60%;
 }
 
 .profile-image img {
@@ -253,13 +260,12 @@
 .employee-information-container {
   display: flex;
   flex-direction: column;
-  height: 90%;
-  width: 100%;
 }
 
 /* Admin Page Section */
 
 .admin-large-modal {
+  background-color: #43425d;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -268,6 +274,7 @@
   height: 90vh;
   width: 85vw;
   padding: 2rem;
+  z-index: 3;
 }
 
 .admin-top-container {
@@ -289,7 +296,6 @@
   align-items: center;
   gap: 1em;
   height: 100%;
-  width: 45%;
 }
 
 .admin-top-container-left-elements img {
@@ -403,4 +409,19 @@
   background-color: #397c90;
   max-height: 200px;
   overflow: "scroll";
+}
+
+.svg {
+  position: fixed;
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-container {
+  background-color: white;
+  color: black;
+  margin-bottom: 0;
+  padding: 0.5rem;
+  border-radius: 10px;
 }
