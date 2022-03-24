@@ -3,6 +3,19 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function Applications() {
   const { currentUser } = useAuth();
+
+  function determineStatus(app) {
+    let status = "";
+    if (app.approved) {
+      status = "approved";
+    } else if (app.rejected) {
+      status = "rejected";
+    } else {
+      status = "pending";
+    }
+    return status;
+  }
+
   return (
     <div className="applications-container">
       <Link to="/profile">Return to profile</Link>
@@ -10,8 +23,7 @@ export default function Applications() {
       {currentUser.applications.map((app) => (
         <div>
           <p>
-            Date applied: {app.date} | Current Status:{" "}
-            {!app.rejected && !app.selected ? "pending" : "tbd"}
+            Date applied: {app.date} | Current Status: {determineStatus(app)}
           </p>
         </div>
       ))}

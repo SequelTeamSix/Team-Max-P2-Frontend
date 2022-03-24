@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function AdminPage() {
@@ -11,43 +9,46 @@ export default function AdminPage() {
   const [positions, setPositions] = useState([]);
   useEffect(() => getOpenPositions(), []);
 
-  const [candidates, setCandidates] = useState([]);
+  const [applications, setApplications] = useState([]);
   useEffect(() => {
     const selectedPositionIndex = positions.findIndex((p) => p.selected);
-    // If a position is currently selected, update the candidates list
+    // If a position is currently selected, update the applications list
     if (selectedPositionIndex >= 0) {
       const selectedPositionId = positions[selectedPositionIndex].id;
-      fetch(`http://localhost:3000/position/${selectedPositionId}`, {
-        mode: "no-cors",
-      })
+      fetch(
+        `http://localhost:3000/application/position/${selectedPositionId}`,
+        {
+          mode: "no-cors",
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          let c = [];
-          if (data.applications) {
-            c = data.applications
+          let a = [];
+          if (data.length) {
+            a = data
               .map((app) => ({
                 ...app,
-                selected: false,
+                currentlySelected: false,
               }))
               .filter(
                 // (app) => !app.recommended && !app.rejected && !app.approved
-                (app) => !app.rejected && !app.approved
+                (app) => !app.rejected && !app.selected
               );
           }
-          setCandidates(c);
+          setApplications(a);
         })
         .catch((e) => {
           console.log("Failed to retrieve open positions");
           console.log(e);
         });
     } else {
-      setCandidates([]);
+      setApplications([]);
     }
   }, [positions]);
 
-  function getSelectedCandidatesCount() {
-    return candidates.filter((p) => p.selected).length;
+  function getSelectedApplicationsCount() {
+    return applications.filter((a) => a.currentlySelected).length;
   }
 
   function getSelectedPositionsCount() {
@@ -56,13 +57,13 @@ export default function AdminPage() {
 
   function notifyCandidate() {
     // ensure there is a position and candidate selected
-    if (getSelectedCandidatesCount() && getSelectedPositionsCount()) {
+    if (getSelectedApplicationsCount() && getSelectedPositionsCount()) {
       const selectedPosition =
         positions[positions.findIndex((p) => p.selected)];
       const selectedPositionId = selectedPosition.id;
       const selectPositionManagerId = selectedPosition.manager.id;
       const selectedCandidateId =
-        candidates[candidates.findIndex((c) => c.selected)].id;
+        applications[applications.findIndex((c) => c.selected)].id;
       fetch(
         `http://localhost:3000/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${selectedCandidateId}`,
         {
@@ -99,28 +100,41 @@ export default function AdminPage() {
       });
   }
 
-  function rejectApplication() {
-    if (getSelectedCandidatesCount() && getSelectedPositionsCount()) {
-      const selectedPosition =
-        positions[positions.findIndex((p) => p.selected)];
-      const positionId = selectedPosition.id;
-      const managerId = selectedPosition.manager.id;
-      const selectedCandidate =
-        candidates[candidates.findIndex((c) => c.selected)];
-      console.log("selected candidate");
-      console.log(selectedCandidate);
-      const applicationId = selectedCandidate.applications.find(
-        (app) => positionId === app.position
-      ).id;
+  function approveApplication() {
+    if (getSelectedApplicationsCount() && getSelectedPositionsCount()) {
+      const selectedApplication = applications.find((a) => a.currentlySelected);
+      console.log("selected application");
+      console.log(selectedApplication);
 
       fetch(
-        `http://localhost:3000/action/rejected/${applicationId}/${managerId}`,
+        `http://localhost:3000/action/approved/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
         {
           mode: "no-cors",
         }
       )
         .then((res) => res)
-        .then((data) => {})
+        .then((data) => getOpenPositions())
+        .catch((e) => {
+          console.log("Failed to aprove application");
+          console.log(e);
+        });
+    }
+  }
+
+  function rejectApplication() {
+    if (getSelectedApplicationsCount() && getSelectedPositionsCount()) {
+      const selectedApplication = applications.find((a) => a.currentlySelected);
+      console.log("selected application");
+      console.log(selectedApplication);
+
+      fetch(
+        `http://localhost:3000/action/rejected/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
+        {
+          mode: "no-cors",
+        }
+      )
+        .then((res) => res)
+        .then((data) => getOpenPositions())
         .catch((e) => {
           console.log("Failed to reject application");
           console.log(e);
@@ -128,27 +142,29 @@ export default function AdminPage() {
     }
   }
 
-  function toggleSelectedCandidate(i) {
-    const numSelected = getSelectedCandidatesCount();
-    const currentSelectedIndex = candidates.findIndex((p) => p.selected);
+  function toggleSelectedApplication(i) {
+    const numSelected = getSelectedApplicationsCount();
+    const currentSelectedIndex = applications.findIndex(
+      (a) => a.currentlySelected
+    );
     if (i === currentSelectedIndex) {
-      setCandidates((oldPositions) => {
-        const newPositions = [...oldPositions];
-        newPositions[currentSelectedIndex].selected = false;
-        return newPositions;
+      setApplications((oldApplications) => {
+        const newApplications = [...oldApplications];
+        newApplications[currentSelectedIndex].currentlySelected = false;
+        return newApplications;
       });
     } else if (numSelected > 0) {
-      setCandidates((oldPositions) => {
-        const newPositions = [...oldPositions];
-        newPositions[currentSelectedIndex].selected = false;
-        newPositions[i].selected = true;
-        return newPositions;
+      setApplications((oldApplications) => {
+        const newApplications = [...oldApplications];
+        newApplications[currentSelectedIndex].currentlySelected = false;
+        newApplications[i].currentlySelected = true;
+        return newApplications;
       });
     } else {
-      setCandidates((oldPositions) => {
-        const newPositions = [...oldPositions];
-        newPositions[i].selected = true;
-        return newPositions;
+      setApplications((oldApplications) => {
+        const newApplications = [...oldApplications];
+        newApplications[i].currentlySelected = true;
+        return newApplications;
       });
     }
   }
@@ -225,26 +241,26 @@ export default function AdminPage() {
         </div>
         <div className="admin-main-container-right">
           <div className="admin-main-container-title">
-            <h3>Candidates</h3>
+            <h3>Applications</h3>
           </div>
           <div className="admin-table-container">
             <div className="role-preferences-container">
-              {candidates.length ? (
-                candidates.map((candidate, i) => (
+              {applications.length ? (
+                applications.map((application, i) => (
                   <div
                     className="admin-add-role-preference-container"
-                    onClick={() => toggleSelectedCandidate(i)}
+                    onClick={() => toggleSelectedApplication(i)}
                   >
                     <div
                       className={
-                        candidate.selected
+                        application.currentlySelected
                           ? "role-preference-element-selected"
                           : "role-preference-element"
                       }
                     >
-                      <p>{`${candidate.employee.firstName} ${candidate.employee.lastName}`}</p>
+                      <p>{`${application.employee.firstName} ${application.employee.lastName}`}</p>
                       <img
-                        src={candidate.employee.photo}
+                        src={application.employee.photo}
                         alt="user"
                         style={{ width: "50px" }}
                       />
@@ -254,7 +270,7 @@ export default function AdminPage() {
               ) : (
                 <div className="admin-add-role-preference-container">
                   <div className="role-preference-element">
-                    <p>No candidates</p>
+                    <p>No applications</p>
                   </div>
                 </div>
               )}
@@ -263,8 +279,8 @@ export default function AdminPage() {
         </div>
       </div>
       <div>
-        <button className="button" onClick={() => notifyCandidate()}>
-          Accept
+        <button className="button" onClick={() => approveApplication()}>
+          Approve
         </button>
         <button className="button" onClick={() => rejectApplication()}>
           Reject

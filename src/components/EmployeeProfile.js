@@ -186,7 +186,7 @@ export function EmployeeProfile() {
           overlay={
             <Popover id={`popover-positioned-left`}>
               <Popover.Header as="h3">{`Popover left`}</Popover.Header>
-              <Popover.Body>
+              <Popover.Body style={{ maxHeight: "200px", overflow: "scroll" }}>
                 {employee.notifications.map((noti) => (
                   <Notification {...noti} />
                 ))}
