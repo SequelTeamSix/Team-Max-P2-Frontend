@@ -17,7 +17,7 @@ export function EmployeeProfile() {
 
   function getOpenPositions() {
     setLoading(true);
-    fetch("http://localhost:3000/position/open", {
+    fetch("https://maxtermindapp1-backend.azurewebsites.net/position/open", {
       mode: "no-cors",
     })
       .then((res) => res.json())
@@ -56,7 +56,7 @@ export function EmployeeProfile() {
           ? selectedPosition.manager.id
           : selectedPosition.manager;
       fetch(
-        `http://localhost:3000/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${employee.id}`,
+        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${employee.id}`,
         {
           mode: "no-cors",
         }

@@ -19,7 +19,7 @@ export default function AdminPage() {
       setLoadingApplications(true);
       const selectedPositionId = positions[selectedPositionIndex].id;
       fetch(
-        `http://localhost:3000/application/position/${selectedPositionId}`,
+        `https://maxtermindapp1-backend.azurewebsites.net/application/position/${selectedPositionId}`,
         {
           mode: "no-cors",
         }
@@ -69,7 +69,7 @@ export default function AdminPage() {
       const selectedCandidateId =
         applications[applications.findIndex((c) => c.selected)].id;
       fetch(
-        `http://localhost:3000/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${selectedCandidateId}`,
+        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${selectedCandidateId}`,
         {
           mode: "no-cors",
         }
@@ -87,7 +87,7 @@ export default function AdminPage() {
 
   function getOpenPositions() {
     setLoadingPostions(true);
-    fetch("http://localhost:3000/position/open", {
+    fetch("https://maxtermindapp1-backend.azurewebsites.net/position/open", {
       mode: "no-cors",
     })
       .then((res) => res.json())
@@ -113,7 +113,7 @@ export default function AdminPage() {
       console.log(selectedApplication);
 
       fetch(
-        `http://localhost:3000/action/approved/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
+        `https://maxtermindapp1-backend.azurewebsites.net/action/approved/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
         {
           mode: "no-cors",
         }
@@ -134,7 +134,7 @@ export default function AdminPage() {
       console.log(selectedApplication);
 
       fetch(
-        `http://localhost:3000/action/rejected/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
+        `https://maxtermindapp1-backend.azurewebsites.net/action/rejected/${selectedApplication.id}/${selectedApplication.position.manager.id}`,
         {
           mode: "no-cors",
         }
