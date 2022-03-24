@@ -425,3 +425,16 @@
   padding: 0.5rem;
   border-radius: 10px;
 }
+
+._404 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #43425d;
+  border-radius: 10px;
+  height: 30%;
+  width: 30%;
+  font-size: larger;
+  z-index: 3;
+}
