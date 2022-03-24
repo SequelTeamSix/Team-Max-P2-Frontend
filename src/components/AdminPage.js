@@ -1,6 +1,45 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
+
 export default function AdminPage() {
+
+  let isClicked = false;
+  const candidates = ["William Turner", "Abraham O'Thompson", "Carmichael McNeil", "Brittany Taggerty"];
+  let random = Math.random(candidates.length);
+
+  function showCandidates() {
+    
+      let p1 = document.getElementById('candidate-one');
+      p1.hidden = false;
+
+      let p2 = document.getElementById('candidate-two');
+      p2.hidden = false;
+
+      let p3 = document.getElementById('candidate-three');
+      p3.hidden = false;
+
+  }
+
+
+
+  const [positions, setPositions] = useState();
+  useEffect(() => {
+    fetch("http://localhost:3000/position/open", {
+      mode: "no-cors"
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        console.log(positions);
+        setPositions(data);
+      })
+      .catch((e) => {
+        console.log("Failed to retrieve open positions");
+        console.log(e);
+      });
+  }, []);
+
   const { logout } = useAuth();
   return (
     <div className="admin-large-modal">
@@ -26,16 +65,17 @@ export default function AdminPage() {
           </div>
           <div className="admin-table-container">
             <div className="role-preferences-container">
+              {positions?.map((position, i) => (
+
               <div className="admin-add-role-preference-container">
                 <div className="role-preference-elements">
-                  <p>Place Open Positions</p>
+                      <p key={position.id} value={i}>
+                        {position.name}
+                      </p>
+                      <button onClick={showCandidates}>See Candidates</button>
                 </div>
               </div>
-              <div className="admin-add-role-preference-container">
-                <div className="role-preference-elements">
-                  <p>Place Open Positions</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -47,12 +87,17 @@ export default function AdminPage() {
             <div className="role-preferences-container">
               <div className="admin-add-role-preference-container">
                 <div className="role-preference-elements">
-                  <p>Candidates Show Here</p>
+                  <p hidden="true" id="candidate-one">Shirley Watanabe</p>
                 </div>
               </div>
               <div className="admin-add-role-preference-container">
                 <div className="role-preference-elements">
-                  <p>Candidates Show Here</p>
+                  <p hidden="true" id="candidate-two">Ralph Burlington</p>
+                </div>
+              </div>
+              <div className="admin-add-role-preference-container">
+                <div className="role-preference-elements">
+                  <p hidden="true" id="candidate-three">Tiffany Comstock</p>
                 </div>
               </div>
             </div>
