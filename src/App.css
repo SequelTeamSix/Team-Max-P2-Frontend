@@ -253,7 +253,7 @@
 .employee-information-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 90%;
   width: 100%;
 }
 
@@ -371,7 +371,9 @@
 }
 
 .notification {
-  border: solid black 1px;
+  /* border: solid black 1px; */
+  background-color: #397c90;
+  color: white;
   margin: 1rem 0;
 }
 
@@ -388,4 +390,17 @@
 
 .password-input {
   width: 90%;
+}
+
+.positions-container {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  overflow: scroll;
+}
+
+.popover-notifications {
+  background-color: #397c90;
+  max-height: 200px;
+  overflow: "scroll";
 }

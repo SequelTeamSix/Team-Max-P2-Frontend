@@ -185,12 +185,14 @@ export function EmployeeProfile() {
             overlay={
               <Popover id={`popover-positioned-left`}>
                 <Popover.Header as="h3">{`Notifications`}</Popover.Header>
-                <Popover.Body
-                  style={{ maxHeight: "200px", overflow: "scroll" }}
-                >
-                  {employee.notifications.map((noti) => (
-                    <Notification {...noti} />
-                  ))}
+                <Popover.Body className="popover-notifications">
+                  {employee.notifications ? (
+                    employee.notifications.map((noti) => (
+                      <Notification {...noti} />
+                    ))
+                  ) : (
+                    <h4>No notifications</h4>
+                  )}
                 </Popover.Body>
               </Popover>
             }
@@ -218,20 +220,22 @@ export function EmployeeProfile() {
                 <span className="visually-hidden">Loading...</span>
               </Spinner>
             ) : positions ? (
-              positions.map((position, i) => (
-                <div className="add-role-preference-container">
-                  <div
-                    className={
-                      position.selected
-                        ? "role-preference-element-selected"
-                        : "role-preference-element"
-                    }
-                    onClick={() => toggleSelectedPosition(i)}
-                  >
-                    <p>{position.name}</p>
+              <div className="positions-container">
+                {positions.map((position, i) => (
+                  <div className="add-role-preference-container">
+                    <div
+                      className={
+                        position.selected
+                          ? "role-preference-element-selected"
+                          : "role-preference-element"
+                      }
+                      onClick={() => toggleSelectedPosition(i)}
+                    >
+                      <p>{position.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))
+                ))}
+              </div>
             ) : (
               <div>No current positions</div>
             )}

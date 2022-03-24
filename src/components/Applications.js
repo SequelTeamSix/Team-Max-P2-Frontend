@@ -30,7 +30,7 @@ export default function Applications() {
               .filter((app) => !app.rejected && !app.approved)
               .map((app) => (
                 <div className="add-role-preference-container">
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     Date applied: {app.date} | Current Status:{" "}
                     {determineStatus(app)}
                   </p>
