@@ -153,11 +153,21 @@
   color: black;
 }
 
-.role-preference-elements {
+.role-preference-element {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.role-preference-element-selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+  background-color: lightskyblue;
 }
 
 .employee-profile-right {

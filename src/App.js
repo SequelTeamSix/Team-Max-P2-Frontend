@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminPage from "./components/AdminPage";
 import AdminLogin from "./components/AdminLogin";
 import PageNotFound from "./components/PageNotFound";
+import Applications from "./components/Applications";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         {/* Any routes that require the user to be signed in go here  */}
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<EmployeeProfile />} />
+          <Route path="/profile/applications" element={<Applications />} />
           <Route path="/admin" element={<AdminPage />} />
         </Route>
       </Routes>
