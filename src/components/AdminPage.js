@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function AdminPage() {
   const { currentUser, logout } = useAuth();
   // use for adding loading spinner and disabling selections while api call is being made
-  const [loading, setLoading] = useState(false);
+  const [loadingPositions, setLoadingPostions] = useState(false);
+  const [loadingApplications, setLoadingApplications] = useState(false);
 
   const [positions, setPositions] = useState([]);
   useEffect(() => getOpenPositions(), []);
@@ -14,6 +16,7 @@ export default function AdminPage() {
     const selectedPositionIndex = positions.findIndex((p) => p.selected);
     // If a position is currently selected, update the applications list
     if (selectedPositionIndex >= 0) {
+      setLoadingApplications(true);
       const selectedPositionId = positions[selectedPositionIndex].id;
       fetch(
         `http://localhost:3000/application/position/${selectedPositionId}`,
@@ -41,7 +44,8 @@ export default function AdminPage() {
         .catch((e) => {
           console.log("Failed to retrieve open positions");
           console.log(e);
-        });
+        })
+        .finally(() => setLoadingApplications(false));
     } else {
       setApplications([]);
     }
@@ -82,6 +86,7 @@ export default function AdminPage() {
   }
 
   function getOpenPositions() {
+    setLoadingPostions(true);
     fetch("http://localhost:3000/position/open", {
       mode: "no-cors",
     })
@@ -97,7 +102,8 @@ export default function AdminPage() {
       .catch((e) => {
         console.log("Failed to retrieve open positions");
         console.log(e);
-      });
+      })
+      .finally(() => setLoadingPostions(false));
   }
 
   function approveApplication() {
@@ -206,7 +212,7 @@ export default function AdminPage() {
         <div className="admin-top-container-right">
           <div className="admin-top-container-right-elements">
             <button className="button" onClick={logout}>
-              Logout
+              Sign out
             </button>
           </div>
         </div>
@@ -217,26 +223,36 @@ export default function AdminPage() {
             <h3>Current Open Positions</h3>
           </div>
           <div className="admin-table-container">
-            <div className="role-preferences-container">
-              {positions.map((position, i) => (
-                <div
-                  className="admin-add-role-preference-container"
-                  onClick={() => {
-                    toggleSelectedPosition(i);
-                  }}
-                >
+            {loadingPositions ? (
+              <Spinner
+                style={{ marginLeft: "13rem", marginTop: "3rem" }}
+                animation="border"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : (
+              <div className="role-preferences-container">
+                {positions.map((position, i) => (
                   <div
-                    className={
-                      position.selected
-                        ? "role-preference-element-selected"
-                        : "role-preference-element"
-                    }
+                    className="admin-add-role-preference-container"
+                    onClick={() => {
+                      toggleSelectedPosition(i);
+                    }}
                   >
-                    <p>{position.name}</p>
+                    <div
+                      className={
+                        position.selected
+                          ? "role-preference-element-selected"
+                          : "role-preference-element"
+                      }
+                    >
+                      <p>{position.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="admin-main-container-right">
@@ -244,45 +260,67 @@ export default function AdminPage() {
             <h3>Applications</h3>
           </div>
           <div className="admin-table-container">
-            <div className="role-preferences-container">
-              {applications.length ? (
-                applications.map((application, i) => (
-                  <div
-                    className="admin-add-role-preference-container"
-                    onClick={() => toggleSelectedApplication(i)}
-                  >
+            {loadingApplications ? (
+              <Spinner
+                style={{ marginLeft: "13rem", marginTop: "3rem" }}
+                animation="border"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : (
+              <div className="role-preferences-container">
+                {applications.length ? (
+                  applications.map((application, i) => (
                     <div
-                      className={
-                        application.currentlySelected
-                          ? "role-preference-element-selected"
-                          : "role-preference-element"
-                      }
+                      className="admin-add-role-preference-container"
+                      onClick={() => toggleSelectedApplication(i)}
                     >
-                      <p>{`${application.employee.firstName} ${application.employee.lastName}`}</p>
-                      <img
-                        src={application.employee.photo}
-                        alt="user"
-                        style={{ width: "50px" }}
-                      />
+                      <div
+                        className={
+                          application.currentlySelected
+                            ? "role-preference-element-selected"
+                            : "role-preference-element"
+                        }
+                      >
+                        <p>{`${application.employee.firstName} ${application.employee.lastName}`}</p>
+                        <img
+                          src={application.employee.photo}
+                          alt="user"
+                          style={{ width: "50px" }}
+                        />
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="admin-add-role-preference-container">
+                    <div className="role-preference-element">
+                      <p>No applications</p>
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="admin-add-role-preference-container">
-                  <div className="role-preference-element">
-                    <p>No applications</p>
-                  </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <div>
-        <button className="button" onClick={() => approveApplication()}>
+      <div className="admin-button-container">
+        <button
+          disabled={
+            !getSelectedPositionsCount() || !getSelectedApplicationsCount()
+          }
+          className="button"
+          onClick={() => approveApplication()}
+        >
           Approve
         </button>
-        <button className="button" onClick={() => rejectApplication()}>
+        <button
+          disabled={
+            !getSelectedPositionsCount() || !getSelectedApplicationsCount()
+          }
+          className="button"
+          onClick={() => rejectApplication()}
+        >
           Reject
         </button>
       </div>

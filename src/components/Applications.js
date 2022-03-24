@@ -17,16 +17,32 @@ export default function Applications() {
   }
 
   return (
-    <div className="applications-container">
-      <Link to="/profile">Return to profile</Link>
-      <h1>My current applications</h1>
-      {currentUser.applications.map((app) => (
-        <div>
-          <p>
-            Date applied: {app.date} | Current Status: {determineStatus(app)}
-          </p>
+    // <div className="applications-container">
+    <div className="main-modal">
+      <Link style={{ textDecoration: "none", alignSelf: "end" }} to="/profile">
+        <div className="link-button">Profile</div>
+      </Link>
+      <div className="application-content">
+        <h1 className="application-heading">My current applications</h1>
+        <div className="application-element-container">
+          {currentUser.applications ? (
+            currentUser.applications
+              .filter((app) => !app.rejected && !app.approved)
+              .map((app) => (
+                <div className="add-role-preference-container">
+                  <p>
+                    Date applied: {app.date} | Current Status:{" "}
+                    {determineStatus(app)}
+                  </p>
+                </div>
+              ))
+          ) : (
+            <div>No current applications</div>
+          )}
         </div>
-      ))}
+      </div>
+      <div></div>
+      <div></div>
     </div>
   );
 }

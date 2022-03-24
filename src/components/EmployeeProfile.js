@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, OverlayTrigger, Popover, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Notification from "./Notification";
+import Bell from "../assets/bell_32.png";
 
 export function EmployeeProfile() {
   const { currentUser, login, logout } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const [employee, setEmployee] = useState();
   useEffect(() => setEmployee(currentUser), [currentUser]);
@@ -14,6 +16,7 @@ export function EmployeeProfile() {
   useEffect(() => getOpenPositions(), [employee]);
 
   function getOpenPositions() {
+    setLoading(true);
     fetch("http://localhost:3000/position/open", {
       mode: "no-cors",
     })
@@ -38,7 +41,8 @@ export function EmployeeProfile() {
       .catch((e) => {
         console.log("Failed to retrieve open positions");
         console.log(e);
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   function applyForPosition() {
@@ -100,30 +104,24 @@ export function EmployeeProfile() {
   return employee ? (
     <div className="large-modal">
       <div className="employee-profile-left">
-        <div className="employee-profile-left-top">
-          <div className="employee-profile-left-top-elements">
-            <div className="profile-image">
-              <img
-                src={
-                  employee.photo
-                    ? employee.photo
-                    : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
-                }
-                alt="You!"
-              />
-            </div>
-            <div className="employee-profile-left-top-elements">
-              <h2>
-                {employee.firstName} {employee.lastName}
-              </h2>
-            </div>
+        <div className="employee-profile-top">
+          <div className="profile-image">
+            <img
+              src={
+                employee.photo
+                  ? employee.photo
+                  : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+              }
+              alt="You!"
+            />
           </div>
+          <h2>
+            {employee.firstName} {employee.lastName}
+          </h2>
         </div>
-        <div className="employee-profile-left-bottom">
+        <div className="employee-profile-bottom">
           <div className="employee-information-container">
-            <div className="employee-information-title">
-              <h3>Employee Information</h3>
-            </div>
+            <h3 className="employee-information-title">Employee Information</h3>
             <div className="role-preferences-container">
               <div className="add-role-preference-container">
                 <div className="role-preference-element">
@@ -179,55 +177,71 @@ export function EmployeeProfile() {
         </div>
       </div>
       <div className="employee-profile-right">
-        <OverlayTrigger
-          trigger="click"
-          key="left"
-          placement="left"
-          overlay={
-            <Popover id={`popover-positioned-left`}>
-              <Popover.Header as="h3">{`Popover left`}</Popover.Header>
-              <Popover.Body style={{ maxHeight: "200px", overflow: "scroll" }}>
-                {employee.notifications.map((noti) => (
-                  <Notification {...noti} />
-                ))}
-              </Popover.Body>
-            </Popover>
-          }
-        >
-          <Button variant="secondary">Popover on left</Button>
-        </OverlayTrigger>
-        <Link to="/profile/applications">My Applications</Link>
-        <button
-          className="button"
-          style={{ alignSelf: "end", margin: "2rem" }}
-          onClick={logout}
-        >
-          Sign Out
-        </button>
-        <div className="employee-profile-left-bottom">
+        <div className="employee-profile-top-right">
+          <OverlayTrigger
+            trigger="click"
+            key="left"
+            placement="left"
+            overlay={
+              <Popover id={`popover-positioned-left`}>
+                <Popover.Header as="h3">{`Notifications`}</Popover.Header>
+                <Popover.Body
+                  style={{ maxHeight: "200px", overflow: "scroll" }}
+                >
+                  {employee.notifications.map((noti) => (
+                    <Notification {...noti} />
+                  ))}
+                </Popover.Body>
+              </Popover>
+            }
+          >
+            <Button className="button-sm">
+              <img src={Bell} alt="notification bell" />
+            </Button>
+          </OverlayTrigger>
+          <Link style={{ textDecoration: "none" }} to="/profile/applications">
+            <div className="link-button">My Applications</div>
+          </Link>
+          <button className="button-sm" onClick={logout}>
+            Sign Out
+          </button>
+        </div>
+        <div className="employee-profile-bottom">
           <div className="employee-information-container">
             <h3>Current eligible positions</h3>
-            {positions ? (
+            {loading ? (
+              <Spinner
+                style={{ marginLeft: "10rem", marginTop: "3rem" }}
+                animation="border"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : positions ? (
               positions.map((position, i) => (
-                // determine how to display position
-                // should be disabled if selected or rejected
-                // otherwise give a checkbox to allow for it to be selected ?
-                <div
-                  className={
-                    position.selected
-                      ? "role-preference-element-selected"
-                      : "role-preference-element"
-                  }
-                  onClick={() => toggleSelectedPosition(i)}
-                >
-                  <p>{position.name}</p>
+                <div className="add-role-preference-container">
+                  <div
+                    className={
+                      position.selected
+                        ? "role-preference-element-selected"
+                        : "role-preference-element"
+                    }
+                    onClick={() => toggleSelectedPosition(i)}
+                  >
+                    <p>{position.name}</p>
+                  </div>
                 </div>
               ))
             ) : (
               <div>No current positions</div>
             )}
           </div>
-          <button className="button" onClick={() => applyForPosition()}>
+          <button
+            disabled={getSelectedPositionsCount() > 0 ? false : true}
+            className="button"
+            style={{ alignSelf: "end" }}
+            onClick={() => applyForPosition()}
+          >
             Apply for position
           </button>
         </div>

@@ -9,7 +9,7 @@ export default function AdminLogin() {
   const { adminLogin } = useAuth();
 
   return (
-    <div className="modal">
+    <div className="main-modal">
       <h1 className="company-title">Maxtermind Inc</h1>
       <div className="sign-in-input-group">
         <label>Username</label>
@@ -23,6 +23,7 @@ export default function AdminLogin() {
         <label>Password</label>
         <div className="sign-in-input-group-password">
           <input
+            className="password-input"
             type={hidePassword ? "password" : "text"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
