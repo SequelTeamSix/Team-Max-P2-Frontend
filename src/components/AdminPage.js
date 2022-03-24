@@ -272,11 +272,6 @@ export default function AdminPage() {
                         }
                       >
                         <p>{`${application.employee.firstName} ${application.employee.lastName}`}</p>
-                        <img
-                          src={application.employee.photo}
-                          alt="user"
-                          style={{ width: "50px" }}
-                        />
                       </div>
                     </div>
                   ))

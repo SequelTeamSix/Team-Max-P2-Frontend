@@ -29,7 +29,7 @@ export function EmployeeProfile() {
             .filter((position) => {
               if (currentUser.applications) {
                 return !currentUser.applications.some(
-                  (app) => app.position === position.id
+                  (app) => app.position.id === position.id
                 );
               }
               return position;
@@ -46,26 +46,26 @@ export function EmployeeProfile() {
   }
 
   function applyForPosition() {
-    // ensure there is a position and candidate selected
+    // ensure there is a position selected
     if (getSelectedPositionsCount()) {
+      setLoading(true);
       const selectedPosition =
         positions[positions.findIndex((p) => p.selected)];
       const selectedPositionId = selectedPosition.id;
-      const selectPositionManagerId =
-        typeof selectedPosition.manager === "object"
-          ? selectedPosition.manager.id
-          : selectedPosition.manager;
       fetch(
-        `https://maxtermindapp1-backend.azurewebsites.net/action/recommended/${selectedPositionId}/${selectPositionManagerId}/${employee.id}`
+        `https://maxtermindapp1-backend.azurewebsites.net/action/selected/${selectedPositionId}/${employee.id}`
       )
         .then((res) => res)
         .then((data) => {
+          console.log("data?");
+          console.log(data);
           login(employee.email, employee.password);
         })
         .catch((e) => {
           console.log("Failed to apply for position");
           console.log(e);
-        });
+        })
+        .finally(() => setLoading(false));
     }
   }
 
