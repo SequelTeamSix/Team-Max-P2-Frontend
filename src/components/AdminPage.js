@@ -33,7 +33,7 @@ export default function AdminPage() {
               }))
               .filter(
                 // (app) => !app.recommended && !app.rejected && !app.approved
-                (app) => !app.rejected && !app.selected
+                (app) => !app.rejected && !app.approved
               );
           }
           setApplications(a);
