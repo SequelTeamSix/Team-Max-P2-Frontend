@@ -376,13 +376,6 @@
   padding: 0 1rem;
 }
 
-.notification {
-  /* border: solid black 1px; */
-  background-color: #397c90;
-  color: white;
-  margin: 1rem 0;
-}
-
 .application-content {
   display: flex;
   flex-direction: column;
@@ -402,13 +395,18 @@
   display: flex;
   flex-direction: column;
   height: 80%;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
-.popover-notifications {
-  background-color: #397c90;
-  max-height: 200px;
-  overflow: "scroll";
+.application-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: white;
+  color: black;
+  padding: 0.4rem;
+  border-radius: 10px;
 }
 
 .svg {
@@ -418,12 +416,27 @@
   margin: 0;
 }
 
+.notification {
+  /* border: solid black 1px; */
+  display: flex;
+  justify-content: space-between;
+  background-color: #397c90;
+  color: white;
+  margin: 1rem 0;
+}
+
 .notification-container {
   background-color: white;
   color: black;
   margin-bottom: 0;
   padding: 0.5rem;
   border-radius: 10px;
+}
+
+.popover-notifications {
+  background-color: #397c90;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 ._404 {

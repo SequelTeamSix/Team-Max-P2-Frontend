@@ -6,7 +6,7 @@ import Notification from "./Notification";
 import Bell from "../assets/bell_32.png";
 
 export function EmployeeProfile() {
-  const { currentUser, login, logout } = useAuth();
+  const { currentUser, updateUser, logout } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const [employee, setEmployee] = useState();
@@ -59,13 +59,12 @@ export function EmployeeProfile() {
         .then((data) => {
           console.log("data?");
           console.log(data);
-          login(employee.email, employee.password);
+          updateUser(employee.email, employee.password);
         })
         .catch((e) => {
           console.log("Failed to apply for position");
           console.log(e);
-        })
-        .finally(() => setLoading(false));
+        });
     }
   }
 

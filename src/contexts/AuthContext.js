@@ -11,6 +11,29 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const navigate = useNavigate();
 
+  function updateUser(email, password) {
+    const url = new URL(
+      "https://maxtermindapp1-backend.azurewebsites.net/employee/login"
+    );
+    const params = { email, password };
+    url.search = new URLSearchParams(params);
+
+    fetch(url, {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setCurrentUser(data);
+          console.log(data);
+        }
+      })
+      .catch((e) => {
+        console.log("Failed to update user");
+        console.log(e);
+      });
+  }
+
   function login(email, password) {
     const url = new URL(
       "https://maxtermindapp1-backend.azurewebsites.net/employee/login"
@@ -67,7 +90,7 @@ export function AuthProvider({ children }) {
     navigate("/");
   }
 
-  const value = { currentUser, login, adminLogin, logout };
+  const value = { currentUser, login, adminLogin, logout, updateUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

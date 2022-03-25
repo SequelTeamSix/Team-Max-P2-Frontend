@@ -26,10 +26,11 @@ export default function Applications() {
               .filter((app) => !app.rejected && !app.approved)
               .map((app) => (
                 <div
-                  className="notification-container"
-                  style={{ marginBottom: 0 }}
+                  className="application-container"
+                  style={{ marginBottom: "1em" }}
                 >
-                  {determineText(app)}
+                  {app.position && <p>{`Position: ${app.position.name}`}</p>}
+                  <p>{`Applied: ${app.date}`}</p>
                 </div>
               ))
           ) : (
