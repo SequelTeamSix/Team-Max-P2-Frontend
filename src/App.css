@@ -5,6 +5,8 @@
   background-color: #43425d;
   color: white;
   height: 100vh;
+  width: 100vw;
+  z-index: 1;
 }
 
 .company-title {
@@ -15,16 +17,21 @@
   width: 20vw;
 }
 
-.modal {
+.main-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 
+  background-color: #43425d;
+  z-index: 3;
+  padding: 1rem;
   border-radius: 10px;
   box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
   height: 70vh;
   width: 60vw;
+  max-width: 800px;
+  max-height: 800px;
 }
 
 .landing-page-button-container {
@@ -47,6 +54,52 @@
 }
 
 .button:hover {
+  background-color: lightblue;
+}
+
+.button:disabled {
+  opacity: 50%;
+  background-color: #397c90;
+  cursor: default;
+}
+
+.button-sm {
+  background-color: #397c90;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  height: 3em;
+  width: 5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.button-sm:focus {
+  background-color: #397c90;
+}
+
+.button-sm:hover {
+  background-color: lightblue;
+}
+
+.link-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #397c90;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  height: 3em;
+  width: 8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.link-button:hover {
   background-color: lightblue;
 }
 
@@ -81,12 +134,15 @@
 /* Employee Profile Page Section */
 
 .large-modal {
+  background-color: #43425d;
   display: flex;
   justify-content: space-evenly;
   border-radius: 10px;
   box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
   height: 90vh;
   width: 85vw;
+  max-width: 1100px;
+  z-index: 3;
 }
 
 .employee-profile-left {
@@ -94,19 +150,48 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  width: 40%;
-  height: 90%;
-  border-radius: 10px;
+  width: 45%;
+  height: 100%;
 }
 
-.employee-profile-left-top {
+.employee-profile-right {
+  /* display: flex;
+  flex-direction: column;
+  width: 35%;
+  height: 100%;
+  border-radius: 10px; */
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-  height: 80%;
+  justify-content: space-between;
+  width: 45%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.employee-profile-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  height: 50%;
+}
+
+.employee-profile-top-right {
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+  align-items: center;
+  width: 100%;
+  margin-top: 5rem;
+}
+
+.employee-profile-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40%;
   width: 90%;
-  margin-top: 20px;
 }
 
 .employee-profile-left-top-elements {
@@ -123,18 +208,13 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 65%;
+  width: 60%;
 }
 
 .profile-image img {
-  height: 200px;
-}
-
-.employee-profile-left-bottom {
-  display: flex;
-  flex-direction: column;
-  height: 40%;
-  width: 90%;
+  /* height: 275px; */
+  width: 100%;
+  border-radius: 10%;
 }
 
 .role-preferences-container {
@@ -153,19 +233,21 @@
   color: black;
 }
 
-.role-preference-elements {
+.role-preference-element {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: 100%;
+  padding: 0 1rem;
 }
 
-.employee-profile-right {
+.role-preference-element-selected {
   display: flex;
-  flex-direction: column;
-  width: 35%;
-  height: 95.5%;
-  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+  background-color: lightskyblue;
 }
 
 .employee-information-title {
@@ -178,20 +260,21 @@
 .employee-information-container {
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  height: 100%;
-  width: 100%;
 }
 
 /* Admin Page Section */
 
 .admin-large-modal {
+  background-color: #43425d;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-radius: 10px;
   box-shadow: 0px 10px 10px 10px rgba(0, 0, 0, 0.29);
   height: 90vh;
   width: 85vw;
+  padding: 2rem;
+  z-index: 3;
 }
 
 .admin-top-container {
@@ -213,7 +296,6 @@
   align-items: center;
   gap: 1em;
   height: 100%;
-  width: 45%;
 }
 
 .admin-top-container-left-elements img {
@@ -278,4 +360,87 @@
   display: flex;
   flex-direction: column;
   width: 45%;
+}
+
+.admin-button-container {
+  display: flex;
+  justify-content: end;
+  column-gap: 10px;
+  padding: 0 1rem;
+}
+
+.application-content {
+  display: flex;
+  flex-direction: column;
+  column-gap: 10px;
+  height: 40%;
+}
+
+.application-heading {
+  height: 40%;
+}
+
+.password-input {
+  width: 90%;
+}
+
+.positions-container {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.application-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: white;
+  color: black;
+  padding: 0.4rem;
+  border-radius: 10px;
+}
+
+.svg {
+  position: fixed;
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+}
+
+.notification {
+  /* border: solid black 1px; */
+  display: flex;
+  justify-content: space-between;
+  background-color: #397c90;
+  color: white;
+  margin: 1rem 0;
+}
+
+.notification-container {
+  background-color: white;
+  color: black;
+  margin-bottom: 0;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.popover-notifications {
+  background-color: #397c90;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+._404 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #43425d;
+  border-radius: 10px;
+  height: 30%;
+  width: 30%;
+  font-size: larger;
+  z-index: 3;
 }

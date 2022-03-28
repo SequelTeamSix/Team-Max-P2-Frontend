@@ -11,14 +11,40 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const navigate = useNavigate();
 
-  function login(email, password) {
-    const url = new URL("http://localhost:3000/employee/login");
+  function updateUser(email, password) {
+    const url = new URL(
+      "https://maxtermindapp1-backend.azurewebsites.net/employee/login"
+    );
     const params = { email, password };
     url.search = new URLSearchParams(params);
 
     fetch(url, {
       method: "POST",
-      mode: "no-cors",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setCurrentUser(data);
+          console.log(data);
+        }
+      })
+      .catch((e) => {
+        console.log("Failed to update user");
+        console.log(e);
+      });
+  }
+
+  function login(email, password) {
+    const url = new URL(
+      "https://maxtermindapp1-backend.azurewebsites.net/employee/login"
+    );
+    const params = { email, password };
+    url.search = new URLSearchParams(params);
+
+    // const url = `https://maxtermindapp1-backend.azurewebsites.net/employee/login?email=${email}&password=${password}`;
+
+    fetch(url, {
+      method: "POST",
     })
       .then((res) => res.json())
       .then((data) => {
@@ -35,13 +61,14 @@ export function AuthProvider({ children }) {
   }
 
   function adminLogin(email, password) {
-    const url = new URL("http://localhost:3000/employee/login");
+    const url = new URL(
+      "https://maxtermindapp1-backend.azurewebsites.net/employee/login"
+    );
     const params = { email, password };
     url.search = new URLSearchParams(params);
 
     fetch(url, {
       method: "POST",
-      mode: "no-cors",
     })
       .then((res) => res.json())
       .then((data) => {
@@ -63,7 +90,7 @@ export function AuthProvider({ children }) {
     navigate("/");
   }
 
-  const value = { currentUser, login, adminLogin, logout };
+  const value = { currentUser, login, adminLogin, logout, updateUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
