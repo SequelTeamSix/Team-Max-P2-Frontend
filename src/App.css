@@ -355,13 +355,6 @@
   color: black;
 }
 
-.admin-add-role-preference-container:hover {
-  box-shadow: 0px 4px 4px 4px rgba(0, 0, 0, 0.29);
-}
-
-.admin-add-role-preference-container:active {
-  opacity: 50%;
-}
 
 .admin-main-container-right {
   display: flex;

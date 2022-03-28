@@ -1,8 +1,44 @@
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
+=======
 import { Spinner } from "react-bootstrap";
+>>>>>>> de1cdc1da2a8624d73bb0015ace70f5ac8c3a3b1
 import { useAuth } from "../contexts/AuthContext";
 
+
 export default function AdminPage() {
+<<<<<<< HEAD
+
+  let isClicked = false;
+  const candidates = ["William Turner", "Abraham O'Thompson", "Carmichael McNeil", "Brittany Taggerty"];
+  let random = Math.random(candidates.length);
+
+  function showCandidates() {
+    
+      let p1 = document.getElementById('candidate-one');
+      p1.hidden = false;
+
+      let p2 = document.getElementById('candidate-two');
+      p2.hidden = false;
+
+      let p3 = document.getElementById('candidate-three');
+      p3.hidden = false;
+
+  }
+
+
+
+  const [positions, setPositions] = useState();
+  useEffect(() => {
+    fetch("http://localhost:3000/position/open", {
+      mode: "no-cors"
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        console.log(positions);
+        setPositions(data);
+=======
   const { currentUser, logout } = useAuth();
   // use for adding loading spinner and disabling selections while api call is being made
   const [loadingPositions, setLoadingPostions] = useState(false);
@@ -90,10 +126,18 @@ export default function AdminPage() {
         }));
         console.log(p);
         setPositions(p);
+>>>>>>> de1cdc1da2a8624d73bb0015ace70f5ac8c3a3b1
       })
       .catch((e) => {
         console.log("Failed to retrieve open positions");
         console.log(e);
+<<<<<<< HEAD
+      });
+  }, []);
+
+  const { logout } = useAuth();
+  return (
+=======
       })
       .finally(() => setLoadingPostions(false));
   }
@@ -187,6 +231,7 @@ export default function AdminPage() {
   }
 
   return positions ? (
+>>>>>>> de1cdc1da2a8624d73bb0015ace70f5ac8c3a3b1
     <div className="admin-large-modal">
       <div className="admin-top-container">
         <div className="admin-top-container-left">
@@ -209,6 +254,21 @@ export default function AdminPage() {
             <h3>Open Positions</h3>
           </div>
           <div className="admin-table-container">
+<<<<<<< HEAD
+            <div className="role-preferences-container">
+              {positions?.map((position, i) => (
+
+              <div className="admin-add-role-preference-container">
+                <div className="role-preference-elements">
+                      <p key={position.id} value={i}>
+                        {position.name}
+                      </p>
+                      <button onClick={showCandidates}>See Candidates</button>
+                </div>
+              </div>
+              ))}
+            </div>
+=======
             {loadingPositions ? (
               <Spinner
                 style={{ marginLeft: "13rem", marginTop: "3rem" }}
@@ -241,6 +301,7 @@ export default function AdminPage() {
             ) : (
               <div>No open positions</div>
             )}
+>>>>>>> de1cdc1da2a8624d73bb0015ace70f5ac8c3a3b1
           </div>
         </div>
         <div className="admin-main-container-right">
@@ -248,6 +309,25 @@ export default function AdminPage() {
             <h3>Applications</h3>
           </div>
           <div className="admin-table-container">
+<<<<<<< HEAD
+            <div className="role-preferences-container">
+              <div className="admin-add-role-preference-container">
+                <div className="role-preference-elements">
+                  <p hidden="true" id="candidate-one">Shirley Watanabe</p>
+                </div>
+              </div>
+              <div className="admin-add-role-preference-container">
+                <div className="role-preference-elements">
+                  <p hidden="true" id="candidate-two">Ralph Burlington</p>
+                </div>
+              </div>
+              <div className="admin-add-role-preference-container">
+                <div className="role-preference-elements">
+                  <p hidden="true" id="candidate-three">Tiffany Comstock</p>
+                </div>
+              </div>
+            </div>
+=======
             {loadingApplications ? (
               <Spinner
                 style={{ marginLeft: "13rem", marginTop: "3rem" }}
@@ -284,6 +364,7 @@ export default function AdminPage() {
                 )}
               </div>
             )}
+>>>>>>> de1cdc1da2a8624d73bb0015ace70f5ac8c3a3b1
           </div>
         </div>
       </div>
