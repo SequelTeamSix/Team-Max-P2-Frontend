@@ -1,1 +1,0 @@
-# Team-Max-P2-Frontend
